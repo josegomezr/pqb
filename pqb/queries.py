@@ -71,8 +71,11 @@ class Select:
         self.where_criteria.append(expressions.ConditionExpression(field, value, operator=operator, conjunction=conjunction))
         return self
 
-    def group_by(self, fields):
-        self.raw_fields_group = fields.split(',')
+    def group_by(self, *args):
+        if len(args) == 1:
+            self.raw_fields_group = args[0].split(',')
+        else:
+            self.raw_fields_group = list(args)
         return self
 
     def order_by(self, field, orientation='ASC'):
