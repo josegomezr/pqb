@@ -3,20 +3,19 @@ from . import grouping
 from . import expressions
 import json
 
-class Select(object):
-    raw_fields = []
-    raw_fields_group = []
-    fields = []
-    group_fields = []
-    raw_tables = []
-    raw_order_by = []
-    order_by_fields = []
-    tables = []
-    where_criteria = grouping.ConditionalGrouping()
-
+class Select:
     def __init__(self, *args):
         super(self.__class__, self).__init__()
         self.raw_fields = args
+        self.raw_fields = []
+        self.raw_fields_group = []
+        self.fields = []
+        self.group_fields = []
+        self.raw_tables = []
+        self.raw_order_by = []
+        self.order_by_fields = []
+        self.tables = []
+        self.where_criteria = grouping.ConditionalGrouping()
 
     def prepareData(self):
         if isinstance(self.raw_fields, str):
@@ -45,7 +44,6 @@ class Select(object):
         for x in self.raw_order_by:
             self.order_by_fields.append(expressions.OrderByExpression(*x).result())
 
-    
     def from_(self, table, alias=None):
         if isinstance(table, str):
             table = [[table, alias]]
@@ -92,33 +90,33 @@ class Select(object):
 
         sql +=  ', '.join(self.fields)
         
-        if prettify:
-            sql += '\n'
-        else:
-            sql += ' '
 
         if len(self.tables) > 0:
+            if prettify:
+                sql += '\n'
+            else:
+                sql += ' '
             sql +=  'FROM '
             sql +=  ', '.join(self.tables)
+        if len(self.where_criteria) > 0:
             if prettify:
                 sql += '\n'
             else:
                 sql += ' '
-        if len(self.where_criteria) > 0:
             sql +=  'WHERE '
             sql +=  self.where_criteria.result()
+        if len(self.group_fields) > 0:
             if prettify:
                 sql += '\n'
             else:
                 sql += ' '
-        if len(self.group_fields) > 0:
             sql +=  'GROUP BY '
             sql +=  ', '.join(self.group_fields)
+        if len(self.order_by_fields) > 0:
             if prettify:
                 sql += '\n'
             else:
                 sql += ' '
-        if len(self.order_by_fields) > 0:
             sql +=  'ORDER BY '
             sql +=  ', '.join(self.order_by_fields)
             if prettify:

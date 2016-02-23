@@ -1,6 +1,6 @@
-# PyQb
+# PQB
 
-Python QueryBuilder.
+Python Query Builder
 
 @todo Super awesome description
 
@@ -9,8 +9,8 @@ Python QueryBuilder.
 Hacer funcionar este fragmento de codigo.
 
 ```python
-import pyqb
-print (pyqb.Select().from_('V').where('a', 'b').result())
+import pqb
+print (pqb.Select().from_('V').where('a', 'b').result())
 // SELECT * FROM V WHERE a = 'b'
 ```
 

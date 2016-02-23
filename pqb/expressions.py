@@ -33,10 +33,19 @@ class AliasExpression(object):
             self.alias = alias
 
     def result(self):
+        field = str(self.field_name) \
+            .replace("\\", '') \
+            .replace('"', '') \
+            .replace("'", '')
+
         if self.alias:
-            return "%s AS %s" % (self.field_name, self.alias)
+            alias = str(self.alias) \
+                .replace("\\", '') \
+                .replace('"', '') \
+                .replace("'", '')
+            return "%s AS %s" % (field, alias)
         else:
-            return self.field_name
+            return field
 
 class ConditionExpression(object):
     @property
