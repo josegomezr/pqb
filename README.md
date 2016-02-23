@@ -2,8 +2,6 @@
 
 Python Query Builder
 
-@todo Super awesome description
-
 ## Example
 
 Hacer funcionar este fragmento de codigo.
