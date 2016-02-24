@@ -1,85 +1,36 @@
+import re
+REGEX_CLEANER = re.compile(r"[^a-z0-9_]", re.I)
+
 class AliasExpression(object):
-    """AliasExpression DOCS"""
-    @property
-    def field_name(self):
-        """I am the 'field_name' property."""
-        return self._field_name
-    @field_name.setter
-    def field_name(self, value):
-        self._field_name = value
-    @field_name.deleter
-    def field_name(self):
-        del self._field_name
-
-    @property
-    def alias(self):
-        """I am the 'alias' property."""
-        return self._alias
-    @alias.setter
-    def alias(self, value):
-        self._alias = value
-    @alias.deleter
-    def alias(self):
-        del self._alias
-
+    """
+    Crea una expresion SQL alias <campo> AS <alias> o simplemente <campo> si no fue provisto un alias
+    """
     def __init__(self, field_name, alias=None, *args, **kwargs):
         super(self.__class__, self).__init__()
         if isinstance(field_name, list):
-            self.field_name, self.alias = field_name
-        elif " as " in field_name.lower():
+            field_name, alias = field_name
+        if ' as ' in field_name.lower():
             self.field_name, self.alias = field_name.split(' as ')
         else:
             self.field_name = field_name
             self.alias = alias
-
     def result(self):
-        field = str(self.field_name) \
-            .replace("\\", '') \
-            .replace('"', '') \
-            .replace("'", '')
+        """
+        Construye la expresion
+        """ 
+        field = re.sub(REGEX_CLEANER, '', self.field_name)
 
         if self.alias:
-            alias = str(self.alias) \
-                .replace("\\", '') \
-                .replace('"', '') \
-                .replace("'", '')
+            alias = re.sub(REGEX_CLEANER, '', self.alias)
             return "%s AS %s" % (field, alias)
         else:
             return field
 
 class ConditionExpression(object):
-    @property
-    def field(self):
-        """I am the 'field' property."""
-        return self._field
-    @field.setter
-    def field(self, value):
-        self._field = value
-    @field.deleter
-    def field(self):
-        del self._field
-
-    @property
-    def value(self):
-        """I am the 'value' property."""
-        return self._value
-    @value.setter
-    def value(self, value):
-        self._value = value
-    @value.deleter
-    def value(self):
-        del self._value
-    @property
-    def operator(self):
-        """I am the 'operator' property."""
-        return self._operator
-    @operator.setter
-    def operator(self, operator):
-        self._operator = operator
-    @operator.deleter
-    def operator(self):
-        del self._value
-
+    """
+    Crea una expresion SQL condicional, usadas en WHERE y HAVING:
+    <campo> <operador> <valor>
+    """
     def __init__(self, field, value, *args, **kwargs):
         self.field = field
         self.value = value
@@ -87,10 +38,10 @@ class ConditionExpression(object):
         self.conjunction = kwargs.get('conjunction')
 
     def result(self):
-        field = str(self.field) \
-            .replace("\\", "") \
-            .replace('"', '') \
-            .replace("'", "")
+        """
+        Construye la expresion
+        """ 
+        field = re.sub(REGEX_CLEANER, '', self.field)
 
         try:
             value = float(self.value)
@@ -110,6 +61,9 @@ class ConditionExpression(object):
         return res
 
 class OrderByExpression(object):
+    """
+    Crea una expresion SQL de ordenamiento.
+    """ 
     def __init__(self, field, orientation = 'ASC'):
         super(OrderByExpression, self).__init__()
 
@@ -121,4 +75,7 @@ class OrderByExpression(object):
             self.field = field
             self.orientation = orientation
     def result(self):
+        """
+        Construye la expresion
+        """ 
         return "%s %s" % (self.field, self.orientation)

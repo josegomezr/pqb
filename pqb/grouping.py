@@ -1,17 +1,26 @@
-class ConditionalGrouping(list):
+class BaseGrouper(object):
     def __init__(self, *args, **kwargs):
-        super(ConditionalGrouping, self).__init__(*args, **kwargs)
-    def result(self):
-        return ' '.join( list( map(lambda x: x.result(), self) ) )
+        super(BaseGrouper, self).__init__(*args, **kwargs)
+        self.items = []
+    def append(self, item):
+        self.items.append(item)
+    def size(self):
+        return len(self.items)
+    def result(self, concatenator = ' '):
+        concatenator = str(concatenator)
+        chunks = []
+        for i in self.items:
+            chunks.append(i.result())
+        return concatenator.join( chunks )
 
-class ANDConditionalGrouping(ConditionalGrouping):
-    def __init__(self, *args, **kwargs):
-        super(ANDConditionalGrouping, self).__init__(*args, **kwargs)
-    def result(self):
-        return ' AND '.join( list( map(lambda x: x.result(), self) ) )
+# class ANDGrouping(BaseGrouper):
+#     def __init__(self, *args, **kwargs):
+#         super(ANDGrouping, self).__init__(*args, **kwargs)
+#     def result(self):
+#         return super(ANDGrouping, self).result(' AND ')
 
-class ORConditionalGrouping(ConditionalGrouping):
-    def __init__(self, *args, **kwargs):
-        super(ORConditionalGrouping, self).__init__(*args, **kwargs)
-    def result(self):
-        return ' OR '.join( list( map(lambda x: x.result(), self) ) )
+# class ORGrouping(BaseGrouper):
+#     def __init__(self, *args, **kwargs):
+#         super(ORGrouping, self).__init__(*args, **kwargs)
+#     def result(self):
+#         return super(ORGrouping, self).result(' OR ')
