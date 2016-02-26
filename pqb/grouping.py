@@ -1,4 +1,7 @@
 class BaseGrouper(object):
+    """
+    Clase base para las agrupaciones de clausulas principalmente usado para concatenar expresiones condicionales
+    """
     def __init__(self, *args, **kwargs):
         super(BaseGrouper, self).__init__(*args, **kwargs)
         self.items = []
