@@ -1,3 +1,4 @@
+#encoding=utf-8
 class BaseGrouper(object):
     """
     Clase base para las agrupaciones de clausulas principalmente usado para concatenar expresiones condicionales

@@ -1,3 +1,4 @@
+#encoding=utf-8
 from . import statements
 from . import grouping
 from . import expressions
@@ -64,6 +65,8 @@ class Select:
         """
         Establece condiciones para la consulta unidas por AND
         """
+        if field is None:
+            return self
         conjunction = None
         if value is None and isinstance(field, dict):
             for f,v in field.items():
@@ -82,6 +85,8 @@ class Select:
         """
         Establece condiciones para la consulta unidas por OR
         """
+        if field is None:
+            return self
         conjunction = None
         if value is None and isinstance(field, dict):
             for f,v in field.items():
@@ -189,6 +194,8 @@ class Delete(object):
         """
         Establece condiciones para la consulta unidas por AND
         """
+        if field is None:
+            return self
         conjunction = None
         if value is None and isinstance(field, dict):
             for f,v in field.items():
@@ -206,6 +213,8 @@ class Delete(object):
         """
         Establece condiciones para la consulta unidas por OR
         """
+        if field is None:
+            return self
         conjunction = None
         if value is None and isinstance(field, dict):
             for f,v in field.items():
@@ -371,6 +380,8 @@ class Update(object):
         """
         Establece condiciones para la consulta unidas por AND
         """
+        if field is None:
+            return self
         conjunction = None
         if value is None and isinstance(field, dict):
             for f,v in field.items():
@@ -388,6 +399,8 @@ class Update(object):
         """
         Establece condiciones para la consulta unidas por OR
         """
+        if field is None:
+            return self
         conjunction = None
         if value is None and isinstance(field, dict):
             for f,v in field.items():

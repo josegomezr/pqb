@@ -1,3 +1,4 @@
+#encoding=utf-8
 import re
 REGEX_CLEANER = re.compile(r"[^a-z0-9_]", re.I)
 

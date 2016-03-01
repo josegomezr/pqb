@@ -72,6 +72,12 @@ class SelectQueryBuilderTestCase(unittest.TestCase):
 
         assert result == expected
 
+    def test_basic_select_with_None_where(self):
+        """Simple select with complex where = None"""
+        expected = "SELECT * FROM V"
+        result = pqb.Select().from_('V').where(None).result()
+        assert result == expected
+
 if __name__ == '__main__':
     unittest.main()
 
