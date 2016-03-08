@@ -1,6 +1,6 @@
 #encoding=utf-8
 import re
-REGEX_CLEANER = re.compile(r"[^a-z0-9_]", re.I)
+REGEX_CLEANER = re.compile(r"[^a-z0-9_@]", re.I)
 
 class AliasExpression(object):
     """
@@ -46,6 +46,8 @@ class ConditionExpression(object):
 
         try:
             value = float(self.value)
+        except TypeError:
+        	value = "(%s)" % ( "', '".join(self.value) )
         except ValueError:
             value = str(self.value) \
                 .replace("\\", r"\\") \

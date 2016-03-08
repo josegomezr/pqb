@@ -69,10 +69,14 @@ class Select:
             return self
         conjunction = None
         if value is None and isinstance(field, dict):
-            for f,v in field.items():
+            for f,vo in field.items():
                 if self.where_criteria.size() > 0:
                     conjunction = 'AND'
-
+                try:
+                	operator, v = vo
+                except Exception as e:
+                	v = vo
+                	operator = None
                 self.where_criteria.append(expressions.ConditionExpression(f, v, operator=operator, conjunction=conjunction))
                 
         else:
@@ -163,7 +167,7 @@ class Select:
                 sql += '\n'
             else:
                 sql += ' '
-        
+
         return sql
 
 class Delete(object):
