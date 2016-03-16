@@ -73,10 +73,10 @@ class Select:
                 if self.where_criteria.size() > 0:
                     conjunction = 'AND'
                 try:
-                	operator, v = vo
+                    operator, v = vo
                 except Exception as e:
-                	v = vo
-                	operator = None
+                    v = vo
+                    operator = None
                 self.where_criteria.append(expressions.ConditionExpression(f, v, operator=operator, conjunction=conjunction))
                 
         else:
