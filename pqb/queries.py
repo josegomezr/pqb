@@ -345,7 +345,6 @@ class Create(object):
         
         if self.data:
             sql += 'CONTENT ' + json.dumps(self.data)
-        print (sql)
         return sql
 
 class Update(object):
@@ -446,5 +445,4 @@ class Update(object):
             else:
                 sql += ' '
         
-        print (sql)
         return sql
