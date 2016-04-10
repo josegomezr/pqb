@@ -61,7 +61,7 @@ class Select:
         self.raw_tables = table
         return self
 
-    def where(self, field, value = None, operator = None):
+    def where(self, field, value = None, operator = '='):
         """
         Establece condiciones para la consulta unidas por AND
         """
@@ -69,23 +69,16 @@ class Select:
             return self
         conjunction = None
         if value is None and isinstance(field, dict):
-            for f,vo in field.items():
-                if self.where_criteria.size() > 0:
-                    conjunction = 'AND'
-                try:
-                    operator, v = vo
-                except Exception as e:
-                    v = vo
-                    operator = None
-                self.where_criteria.append(expressions.ConditionExpression(f, v, operator=operator, conjunction=conjunction))
-                
+            for field, value in field.items():
+                operator, value = value if isinstance(value, tuple) else ('=', value)
+                self.where(field, value, operator)
         else:
             if self.where_criteria.size() > 0:
                     conjunction = 'AND'
             self.where_criteria.append(expressions.ConditionExpression(field, value, operator=operator, conjunction=conjunction))
         return self
 
-    def where_or(self, field, value = None, operator = None):
+    def where_or(self, field, value = None, operator = '='):
         """
         Establece condiciones para la consulta unidas por OR
         """
@@ -93,12 +86,9 @@ class Select:
             return self
         conjunction = None
         if value is None and isinstance(field, dict):
-            for f,v in field.items():
-                if self.where_criteria.size() > 0:
-                    conjunction = 'OR'
-
-                self.where_criteria.append(expressions.ConditionExpression(f, v, operator=operator, conjunction=conjunction))
-                
+            for field, value in field.items():
+                operator, value = value if isinstance(value, tuple) else ('=', value)
+                self.where_or(field, value, operator)
         else:
             if self.where_criteria.size() > 0:
                     conjunction = 'OR'

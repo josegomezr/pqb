@@ -35,13 +35,14 @@ class ConditionExpression(object):
     def __init__(self, field, value, *args, **kwargs):
         self.field = field
         self.value = value
-        self.operator = '=' if kwargs.get('operator') is None else kwargs['operator']
+        self.operator = kwargs.get('operator', '=')
         self.conjunction = kwargs.get('conjunction')
 
     def result(self):
         """
         Construye la expresion
         """ 
+        
         field = re.sub(REGEX_CLEANER, '', self.field)
 
         try:
